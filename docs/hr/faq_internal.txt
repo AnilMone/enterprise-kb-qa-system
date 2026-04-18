@@ -1,0 +1,39 @@
+﻿Internal Frequently Asked Questions (FAQ)
+Q1: What are the standard working hours for the office?
+A1: Standard office hours are 9:00 AM to 6:00 PM, Monday through Friday, including a one-hour lunch break.
+
+
+Q2: How do I apply for annual or sick leave?
+A2: Leave requests must be submitted through the internal HR portal at least two weeks in advance for planned absences.
+
+
+Q3: Who should I contact for technical issues or IT support?
+A3: Please raise a ticket via the IT Helpdesk portal or email support@internal.com for any hardware or software assistance.
+
+
+Q4: What is the process for claiming travel reimbursements?
+A4: Employees should submit their expense claims with original receipts via the Finance module within 30 days of travel.
+
+
+Q5: How do I report a security incident or lost ID card?
+A5: Immediately notify the Security Operations Center (SOC) and your direct manager to ensure access is restricted.
+
+
+Q6: Where can I find the latest copy of the general company policies?
+A6: All official policy documents are hosted in the "Policies" folder on the company intranet's main landing page.
+
+
+Q7: How often are performance reviews conducted?
+A7: Formal performance reviews occur twice a year, consisting of a mid-year check-in and an annual year-end evaluation.
+
+
+Q8: What is the formal grievance procedure?
+A8: Grievances should first be discussed with your manager; if unresolved, a formal report can be filed with the HR Relations team.
+
+
+Q9: Are there any mandatory trainings I need to complete?
+A9: Yes, all employees must complete the annual Compliance, Cybersecurity Awareness, and Workplace Safety modules.
+
+
+Q10: How can I update my personal details such as address or bank info?
+A10: You can update your contact information and banking details directly under the "My Profile" section in the HRIS system.
