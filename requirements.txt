@@ -10,6 +10,7 @@
 # streamlit -- turns Python into a web app with zero HTML/CSS needed
 # 1.23.1 is the last release supporting Python 3.7
 streamlit==1.23.1
+pillow>=10.0.0 
 
 # boto3 -- official AWS SDK for Python
 # lets you call S3, Bedrock, EC2, IAM etc from Python code
