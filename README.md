@@ -1,150 +1,231 @@
-# Enterprise Knowledge Base Q&A System Using Amazon Bedrock Knowledge Bases
+# Enterprise Knowledge Base Q&A System
 
-A Retrieval-Augmented Generation (RAG) question-answering application built with Streamlit, Amazon Bedrock Knowledge Bases, and Amazon S3. It allows users to ask natural language questions about enterprise documents and receive citation-backed answers.
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.23.1-red.svg)](https://streamlit.io)
+[![AWS](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Project Overview
+A **Retrieval-Augmented Generation (RAG)** powered enterprise knowledge base application that enables natural language Q&A over your organization's documents using **Amazon Bedrock Knowledge Bases** and **Amazon S3**.
 
-The application provides:
-- A modern web UI with sidebar navigation
-- Document upload to S3 for Bedrock KB ingestion
-- A question search interface powered by Amazon Bedrock
-- Document listing under the Documents tab
-- Analytics for session question activity
-- Settings history for question review and clearing
+---
 
-## Folder Structure
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Setup & Installation](#setup--installation)
+- [Configuration](#configuration)
+- [Running the App](#running-the-app)
+- [Application Pages](#application-pages)
+- [Important Notes](#important-notes)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+---
+
+## Features
+
+- **Intelligent Q&A Search** – Ask questions in plain English and get AI-generated answers backed by your enterprise documents
+- **Citation-Backed Answers** – Every response includes source references showing exactly which documents were used
+- **Document Upload** – Upload PDF, TXT, and DOCX files directly from the UI to your S3 knowledge base
+- **Multi-Department Support** – Organized document folders for HR, Finance, IT, and Operations
+- **Session Analytics** – Track and visualize question activity with interactive charts
+- **Question History** – Review and manage your past queries with a built-in history log
+- **Modern Sidebar Navigation** – Clean, intuitive UI with easy navigation between sections
+- **Custom Styling** – Professionally designed with a warm amber color theme using the Inter font family
+
+---
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| **Frontend** | Streamlit |
+| **Backend** | Python (boto3) |
+| **AI/ML** | Amazon Bedrock (Nova Pro) |
+| **Embeddings** | Amazon Titan Embed Text V1 |
+| **Storage** | Amazon S3 |
+| **Knowledge Base** | Amazon Bedrock Knowledge Bases |
+| **Environment** | python-dotenv |
+
+---
+
+## Architecture
 
 ```
-Enterprise Knowledge Base Q&A System Using Amazon Bedrock Knowledge Bases/
-+-- app.py                  # Main Streamlit application
-+-- bedrock_rag.py          # AWS Bedrock + S3 integration logic
-+-- config.py               # Application configuration and constants
-+-- requirements.txt        # Python dependency list
-+-- .env.template           # Template for environment variables
-+-- .gitignore              # Files and folders to ignore in git
-+-- docs/                   # Local sample documents for the knowledge base
-    +-- finance/
-    +-- hr/
-        +-- faq_internal.txt
-    +-- it/
-    +-- ops/
-+-- .streamlit/             # Optional Streamlit configuration files
++---------------------+       +-----------------------------+
+|  User (Browser)     |----->|  Streamlit Web App          |
+|  localhost:8501     |       |  (app.py)                   |
++---------------------+       +--------------+--------------+
+                                              |
+                                              v
+                               +-----------------------------+
+                               |  Bedrock RAG Engine         |
+                               |  (bedrock_rag.py)           |
+                               +---------------+-------------+
+                                               |
+         +--------------------------+-----------+--------------------------+
+         v                          v                                      v
++---------------------+    +---------------------+              +---------------------+
+| Amazon Bedrock      |    | Amazon S3 Bucket    |              | Embedding Model     |
+| Knowledge Base      |    | (Document Storage)  |              | (Titan Embed V1)    |
++---------------------+    +---------------------+              +---------------------+
 ```
 
-## Setup Instructions
+---
 
-### 1. Create a Python virtual environment
+## Project Structure
+
+```
+enterprise-kb-qa-system/
+├── app.py              # Main Streamlit application (UI + logic)
+├── bedrock_rag.py      # AWS Bedrock + S3 integration (RAG engine)
+├── config.py           # Centralized configuration & constants
+├── requirements.txt    # Python dependencies
+├── .env.template       # Environment variable template
+├── .gitignore          # Git ignore rules
+├── README.md           # This file
+├── .streamlit/         # Streamlit configuration (optional)
+└── docs/               # Sample enterprise documents
+    ├── finance/
+    │   └── travel_reimbursement.pdf
+    └── hr/
+        └── employee_policy.pdf
+```
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+
+- Python 3.7 or higher
+- AWS Account with access to Amazon Bedrock
+- An active **Bedrock Knowledge Base** configured in the AWS Console
+- An **S3 Bucket** for document storage
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/AnilMone/enterprise-kb-qa-system.git
+cd enterprise-kb-qa-system
+```
+
+### Step 2: Create Virtual Environment
 
 ```bash
 python -m venv .venv
-.venv\\Scripts\\activate   # Windows
-source .venv/bin/activate  # macOS / Linux
+
+# Windows
+.venv\scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
 ```
 
-### 2. Install dependencies
+### Step 3: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure AWS credentials
+### Step 4: Configure AWS Credentials
 
-Copy the template and fill in your AWS credentials:
+Copy the environment template:
 
 ```bash
-copy .env.template .env   # Windows
-cp .env.template .env     # macOS / Linux
+# Windows
+copy .env.template .env
+
+# macOS / Linux
+cp .env.template .env
 ```
 
-Then update `.env` with:
+Then update `.env` with your AWS credentials:
 
-```env
+```.env
 AWS_ACCESS_KEY_ID=your_access_key_id
 AWS_SECRET_ACCESS_KEY=your_secret_access_key
 AWS_DEFAULT_REGION=us-east-1
 ```
 
-### 4. Update Bedrock settings
+---
 
-Open `config.py` and confirm values for:
-- `AWS_REGION`
-- `KNOWLEDGE_BASE_ID`
-- `S3_BUCKET_NAME`
-- `S3_PREFIX`
-- `MODEL_ARN`
+## Configuration
 
-### 5. Run the application
+Open `config.py` and set the following values:
+
+| Variable | Description |
+|----------|-------------|
+| `AWS_REGION` | Your AWS region (e.g., `us-east-1`) |
+| `KNOWLEDGE_BASE_ID` | Bedrock Knowledge Base ID from AWS Console |
+| `S3_BUCKET_NAME` | Name of your S3 bucket |
+| `S3_PREFIX` | Folder path inside S3 (e.g., `documents/`) |
+| `MODEL_ARN` | ARN of the foundation model to use |
+
+> **Note:** The Amazon Nova Pro model is used by default and requires no marketplace subscription.
+
+---
+
+## Running the App
+
+Start the Streamlit application:
 
 ```bash
 streamlit run app.py
 ```
 
-Open `http://localhost:8501` in your browser.
+Open your browser and navigate to:
 
-## Application Features
+**http://localhost:8501**
 
-- **Knowledge Bases**: Use the search page to ask questions and get citation-backed answers.
-- **Documents**: View local documents found in `docs/` and files uploaded this session.
-- **Analytics**: See a graph of question activity and recent queries.
-- **Settings**: Review question history and clear stored session data.
+---
 
-## Recommended Git Workflow
+## Application Pages
 
-### Files to push to Git
+### Knowledge Bases
 
-Include:
-- `app.py`
-- `bedrock_rag.py`
-- `config.py`
-- `requirements.txt`
-- `.env.template`
-- `README.md`
-- `.gitignore`
-- `docs/` folder with sample documents
-- `.streamlit/` (only if it contains project-specific config)
+The main Q&A interface. Type your question, and the app retrieves relevant document chunks, sends them to Amazon Bedrock, and returns a grounded answer with citations.
 
-Exclude:
-- `.venv/`
-- `.env`
-- `*.log`
-- `__pycache__/`
-- `CHANGES_SUMMARY.md`
-- `search_unicode.py`
-- `astra_kb.log`
+### Documents
 
-### Push commands
+Browse all documents available in the `docs/` folder and files uploaded during the current session.
 
-```bash
-git init
-git add app.py bedrock_rag.py config.py requirements.txt .env.template README.md .gitignore docs
-git commit -m "Initial commit: Enterprise KB Q&A System Using Amazon Bedrock Knowledge Bases"
-git branch -M main
-git remote add origin <your-repo-url>
-git push -u origin main
-```
+### Analytics
 
-## Deploying to Streamlit
+Visualize your question activity with a session-based line chart and review your most recent queries.
 
-1. Create a new Streamlit Community Cloud app.
-2. Connect your GitHub repository.
-3. Set the repository branch and app folder.
-4. Add the following secrets in Streamlit settings:
-   - `AWS_ACCESS_KEY_ID`
-   - `AWS_SECRET_ACCESS_KEY`
-   - `AWS_DEFAULT_REGION`
-5. Deploy the app.
+### Settings
 
-If the app fails due to AWS auth, verify the `.env` values and recreate secrets.
+Review your complete question history and clear session data when needed.
 
-## Notes
+---
 
-- Do not commit the `.env` file or any local secrets.
-- Keep `config.py` updated with your Bedrock Knowledge Base ID and S3 bucket details.
-- After uploading new documents, sync the Bedrock Knowledge Base in the AWS Console so the data is indexed.
+## Important Notes
+
+- Never commit the `.env` file or any AWS secrets to version control
+- After uploading new documents, **sync your Bedrock Knowledge Base** in the AWS Console to re-index the data
+- Keep `config.py` updated whenever you change your Knowledge Base ID or S3 bucket
+
+---
 
 ## Troubleshooting
 
-- `NoCredentialsError`: Ensure `.env` exists with valid AWS keys.
-- `AccessDeniedException`: Confirm IAM permissions for S3 and Bedrock.
-- `ResourceNotFoundException`: Verify `KNOWLEDGE_BASE_ID` in `config.py`.
-- Port issues: Use `streamlit run app.py --server.port <port>` or stop other Streamlit processes.
+| Error | Solution |
+|-------|----------|
+| `NoCredentialsError` | Ensure `.env` exists with valid AWS keys |
+| `AccessDeniedException` | Verify IAM permissions for S3 and Bedrock |
+| `ResourceNotFoundException` | Check `KNOWLEDGE_BASE_ID` in `config.py` |
+| Port already in use | Run `streamlit run app.py --server.port 8502` |
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+**Built with Amazon Bedrock Knowledge Bases by AnilMone**
