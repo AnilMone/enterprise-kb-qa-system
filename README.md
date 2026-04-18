@@ -1,5 +1,7 @@
 # Enterprise Knowledge Base Q&A System
 
+🚀 **[Live Demo](https://enterprise-kb-application.streamlit.app/)** | Try the app live!
+
 [![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.23.1-red.svg)](https://streamlit.io)
 [![AWS](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock)
